@@ -30,7 +30,7 @@
 // @grant        GM.xmlHttpRequest
 // @grant        GM_xmlhttpRequest
 // @run-at       document-start
-// @namespace    http://zhihupe.com/
+// @namespace    baiduwenku
 // ==/UserScript==
 
 (function () {
