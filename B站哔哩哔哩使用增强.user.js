@@ -32,9 +32,6 @@
 // @include           *://m.v.qq.com/x/cover/*
 // @include           *://m.v.qq.com/x/page/*
 // @include           *://m.v.qq.com/*
-// @include           *://m.iqiyi.com/v_*
-// @include           *://m.iqiyi.com/w_*
-// @include           *://m.iqiyi.com/a_*
 // @include           *://m.youku.com/alipay_video/*
 // @include           *://m.youku.com/video/id_*
 // @include           *://m.mgtv.com/b/*
