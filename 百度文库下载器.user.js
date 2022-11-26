@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         百度文库下载器,VIP文档免费下载 | 全文阅读| 开启右键复制
-// @version      1.6.5
+// @version      1.6.9
 // @description  【本脚本功能】保持源文件排版导出 PDF 文件，解除继续阅读限制，净化弹窗、广告，开启文库本地 VIP，淘宝、天猫、京东商品优惠券查询
 // @author       zhihu
 // @antifeature  membership  为防止接口被盗！该脚本需要输入验证码之后才能使用完整功能，感谢理解
@@ -36,7 +36,7 @@
 (function () {
     'use strict';
     var qrname,nodeid,goodid,method,action,updateconfig;
-    const scpritversion = "1.6.5";
+    const scpritversion = "1.6.8";
     function Getgoodid(gid) {
         var reg = new RegExp("(^|&)" + gid + "=([^&]*)(&|$)");
         var s = window.location.search.substr(1).match(reg);
@@ -77,6 +77,25 @@
         var doc = document.head || document.documentElement;
         doc.appendChild(addStyle);
     }
+    function req(method,url,headers,data=null){
+            return new Promise(function(resolve, reject){
+                GM_xmlhttpRequest({
+                    url: url,
+                    method: method,
+                    data:data,
+                    headers:headers,
+                    onload: function(res) {
+                        var status = res.status;
+                        var responseText = res.responseText;
+                        if(status==200||status=='200'){
+                            resolve({"result":"success", "data":responseText});
+                        }else{
+                            reject({"result":"error", "data":null});
+                        }
+                    }
+                });
+            })
+        }
     function open(data) {
         var main = document.createElement('div');
         var width = data.area[0];
@@ -363,8 +382,17 @@
                             }
                             var jdcouponEndTime = json.data[0].couponEndTime
                             var jdactualPrice = json.data[0].actualPrice;
-                            var couponLink = json.data[0].couponLink;
-                            addcoupon(couponLink, jdcouponInfo, jdcouponEndTime, jdactualPrice,"")
+                            var couponLinkRequest = req("GET","http://tool.wezhicms.com/coupon/getcoupon.php?m=jd&act=getUrl&url=https://item.jd.com/" +t+".html");
+                                couponLinkRequest.then(function(e){
+                                    var result = JSON.parse(e.data);
+                                    if (result.code == "0") {
+                                        var couponLink = result.data.shortUrl;
+                                        addcoupon(couponLink, jdcouponInfo, jdcouponEndTime, jdactualPrice)
+                                    }else{
+                                        let u="",f="",t="",p="";
+                                        addcoupon(u, f, t, p);
+                                    }
+                                });
                         }else{
                             let u="",f="",t="",p="";
                             addcoupon(u, f, t, p);
@@ -384,17 +412,17 @@
         var mainhtml,qa,cxalink,link;
         if(qrname =="淘宝"){
             let ht = document.querySelector("#J_Title");
-            link ="http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&goodid="+goodid
+            link ="http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&platform=手机淘宝"
             qa = "淘宝";
             cxalink ='http://wxego.yhzu.cn/?r=/l&kw='+encodeURI(ht.querySelector("h3").innerText)+'&sort=0';
         }else if(qrname =="天猫"){
             let hm = document.querySelector(".tb-detail-hd")??document.querySelector(".ItemHeader--root--DXhqHxP");
-            link ="http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&goodid="+goodid
+            link ="http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&platform=手机淘宝"
             cxalink ='http://wxego.yhzu.cn/?r=/l&kw='+encodeURI(hm.querySelector("h1").innerText)+'&sort=0';
             qa = "淘宝";
         }else if(qrname =="京东"){
             cxalink = 'http://wxego.yhzu.cn/?r=/l/jdlist&kw='+encodeURI(document.querySelector(".sku-name").innerText)+'&sort=0';
-            link =u
+            link = "http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&platform=手机京东或微信"
             qa = "京东";
         }
 
@@ -1220,8 +1248,8 @@
             break;
         case 'item.yiyaojd.com':
             qrname = "京东";
-            nodeid = "#J-summary-top";
-            goodid = geturlid(window.location.href);
+            nodeid = ["#J-summary-top"];
+            goodid = getid(window.location.href);
             method = "jd";
             action = "getdetails";
             Getcoupon(goodid);
@@ -1230,8 +1258,8 @@
             break;
         case 'item.jd.com':
             qrname = "京东";
-            nodeid = "#J-summary-top";
-            goodid = geturlid(window.location.href);
+            nodeid = ["#J-summary-top"];
+            goodid = getid(window.location.href);
             method = "jd";
             action = "getdetails";
             Getcoupon(goodid);
@@ -1240,8 +1268,8 @@
             break;
         case 'npcitem.jd.hk':
             qrname = "京东";
-            nodeid = "#J-summary-top";
-            goodid = geturlid(window.location.href);
+            nodeid = ["#J-summary-top"];
+            goodid = getid(window.location.href);
             method = "jd";
             action = "getdetails";
             Getcoupon(goodid);
