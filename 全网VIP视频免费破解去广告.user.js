@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         懒人专用，全网VIP视频免费破解去广告、全网音乐直接下载、知乎增强、短视频无水印下载、百度网盘直接下载等多功能工具箱，功能可独立开关。长期更新，放心使用。v6
 // @namespace 	 lanhaha
-// @version      6.4.1
+// @version      6.5
 // @description  自用多功能脚本工具箱，完全免费、无广告、无需关注公众号，集合了优酷、爱奇艺、腾讯、B站(bilibili)、芒果等全网VIP视频(PC+移动端)免费破解去广告，网易云音乐、QQ音乐、酷狗、酷我、虾米、蜻蜓FM、荔枝FM、喜马拉雅等网站音乐和有声书音频免客户端下载，知乎增强(知乎视频下载、去广告、关键词屏蔽、去除侧边栏等)，视频无水印下载(bilibili、抖音、快手、西瓜、youtube)，百度网盘直接下载，优惠券自动查询等几个自己常用的功能，且功能可独立开关。
 // @author       lanhaha，syhyz1990，zhmai
 // @icon         data:image/png;base64,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
@@ -25,6 +25,7 @@
 // @match        *://*.bilibili.com/*
 // @match        *://*.pptv.com/*
 // @match        *://item.taobao.com/*
+// @match        *://s.taobao.com/*
 // @match        *://chaoshi.detail.tmall.com/*
 // @match        *://detail.tmall.com/*
 // @match        *://detail.tmall.hk/*
@@ -611,6 +612,9 @@
             zhNice:[{isOpen:GM_getValue('zhihuList','22'),web:[
                 {funcName:'zhNice',match:/^https?:\/\/[a-z]+\.zhihu\.com/}
             ]}],
+            taobao:[{isOpen:GM_getValue('taobao','22'),web:[
+                {funcName:'taobaoSearch',match:/^https?:\/\/s\.taobao\.com\/search\?.+/}
+            ]}],
             
             videoDownload:[{isOpen:GM_getValue('videoDownloadList','22'),web:[
                 {funcName:'videoDownload',name:'dyVideoDownload',match:/^https?:\/\/www\.douyin\.com\/?.+$/,isWebOpen:dyVideoDownload},
@@ -660,7 +664,7 @@
 
         }
 
-        var {getCoupon,jxVideo,jxMusic,playLine,zhNice,videoDownload,keyCode,downloadOption,baidu} = datas;
+        var {getCoupon,jxVideo,jxMusic,playLine,zhNice,taobao,videoDownload,keyCode,downloadOption,baidu} = datas;
 
         /*--Class--*/
         class BaseClass{
@@ -2768,31 +2772,6 @@
 
                             BaseClass.toast('正在下载请稍侯');
 
-                            let dataUrl = document.querySelector('#zhmDouyinDownload').getAttribute('data-url');
-
-                            let match = /[https]?:?\/\/www\.douyin\.com\/.+\/([0-9]+)/;
-
-                            let video = dataUrl.match(match);
-
-                            let videoId = video[1];
-
-                            let url = 'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids='+video[1];
-
-                            GM_xmlhttpRequest({
-                                method: "get",
-                                url: url,
-                                data: '',
-                                headers: {'Accept': 'text/plain, text/html,application/json'},
-                                onload: function(result) {
-
-                                    let resp = JSON.parse(result.response);
-
-                                    if(resp.item_list.length > 0){
-
-                                        let uriId = resp.item_list[0].video.play_addr.uri;
-
-                                        let playUrl = `https://aweme.snssdk.com/aweme/v1/play/?video_id=${uriId}&line=0&ratio=540p&media_type=4&vr_type=0&improve_bitrate=0&is_play_url=1&is_support_h265=0&source=PackSourceEnum_PUBLISH`;
-
                                         let info = document.querySelectorAll('.Nu66P_ba');
 
                                         let account = info[videoIndex*2].innerText;
@@ -2801,15 +2780,7 @@
 
                                         let title = titleArr[0]?titleArr[0]:titleArr[1];
 
-                                        //console.log(account,title);
-
-                                        GM_download(playUrl,title+account+".mp4");
-
-                                    }else{
-                                        console.log('API没有获取视频ID');
-                                    }
-                                }
-                            });
+                                        GM_download(videoPlayDom.children[0].src,title+account+".mp4");
                             
                         })
 
@@ -3950,7 +3921,7 @@
             }
         }
 
-        var allWeb = [...getCoupon,...jxVideo,...jxMusic,...zhNice,...videoDownload,...baidu];
+        var allWeb = [...getCoupon,...jxVideo,...jxMusic,...zhNice,...taobao,...videoDownload,...baidu];
 
         var nowWeb=[];
 
@@ -4014,6 +3985,10 @@
                     }
 
                     break;
+                
+                case 'taobaoSearch':
+                    taobaoSearchFunc(item)
+                     break;
 
             }
 
@@ -5330,6 +5305,94 @@
                 }
 
             }
+
+        }
+
+        function taobaoSearchFunc(item){
+
+            let timer = setInterval(function(){
+
+                let taobaoIconDom = document.querySelector('#taobaoIconSelect');
+
+                let baseClass = new BaseClass();
+
+                let filterTmall = baseClass.getQueryString('filter_tianmao');
+
+                if(!taobaoIconDom){
+
+                    let filters = document.querySelectorAll('.filters >a');
+
+                    if(filters.length>0){
+
+                        for(let i=0;i<filters.length;i++){
+
+                            let dataValue = filters[i].getAttribute('data-value');
+
+                            if(dataValue == 'tmall'){
+
+                                //console.log(dataValue);
+
+                                let taobaoDom = filters[i].cloneNode(true);
+
+                                taobaoDom.querySelector('.text').innerText='淘宝';
+
+                                taobaoDom.setAttribute('id','taobaoIconSelect');
+
+                                taobaoDom.setAttribute('data-value','taobao');
+
+                                if(filterTmall=='taobao'){
+                                    taobaoDom.setAttribute('data-action','remove');
+                                    taobaoDom.className='filter icon-tag J_Ajax icon-hover';
+                                }else{
+                                    taobaoDom.removeAttribute('data-action');
+                                    taobaoDom.className='filter icon-tag J_Ajax';
+                                }
+
+                                filters[i].before(taobaoDom);
+                                break;
+                            }
+                        }
+
+                    }
+
+                }else{
+
+                    if(filterTmall=='taobao'){
+                        taobaoIconDom.setAttribute('data-action','remove');
+                        taobaoIconDom.className='filter icon-tag J_Ajax icon-hover';
+                    }else{
+                        taobaoIconDom.removeAttribute('data-action');
+                        taobaoIconDom.className='filter icon-tag J_Ajax';
+                    }
+
+
+                }
+
+
+
+                if(filterTmall=='taobao'){
+
+                    let goodsList = document.querySelectorAll('.items > .item');
+
+                    goodsList.forEach(function(item){
+
+                        let iconLiClass = item.querySelector('.icons>li>a>span');
+
+                        let classNameTm=['icon-service-tianmao','icon-service-tianmaoguoji'];
+
+                        if(iconLiClass && classNameTm.indexOf(iconLiClass.className) != -1){
+
+                            item.style='display:none;';
+
+                        }
+
+                    })
+
+                    //clearInterval(timer);
+
+                }
+
+            },500)
 
         }
 
