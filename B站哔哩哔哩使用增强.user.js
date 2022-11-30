@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name              B站哔哩哔哩使用增强，全网VIP视频免费破解去广告，全网音乐直接下载，知乎使用增强，短视频无水印下载，油管、Facebook等国外视频解析下载，网盘搜索引擎破解无限下载等
 // @namespace         super_video_helper_cat
-// @version           4.2.3
-// @description       【❤️视频解析❤️，适配PC+移动 】功能可选择性打开：1、B站使用增强：支持视频下载(👉支持多P批量快速下载👈)、浏览记录提示、一键三连、描述文本网址转链接等；2、全网VIP视频解析：爱奇艺、腾讯、优酷、bilibili等视频免费解析(支持自定义解析接口)；3、知乎使用助手：内容种类标识、问答显示优化、视频下载等；4、短视频去水印下载：支持知乎、抖音、快手等；5、全网VIP音乐解析：网易云音乐、QQ音乐、喜马拉雅等免客户端下载；6、油管、Facebook等国外视频解析下载；7、网盘搜索引擎(来搜一下,小猪快盘)无限下载；8、优惠券查询等；9、搜索引擎导航【脚本长期维护更新，完全免费，无广告】
+// @version           4.3.1
+// @description       【❤️视频解析❤️，适配PC+移动 】功能可选择性打开：1、B站使用增强：支持视频下载(👉支持多P批量快速下载👈)、浏览记录提示、一键三连、描述文本网址转链接等；2、全网VIP视频解析：爱奇艺、腾讯、优酷、bilibili等视频免费解析(支持自定义解析接口)；3、知乎使用助手：内容种类标识、问答显示优化、视频下载等；4、短视频去水印下载：支持知乎、抖音、快手等；5、全网VIP音乐解析：网易云音乐、QQ音乐、喜马拉雅等免客户端下载；6、油管、Facebook等国外视频解析下载；7、网盘搜索引擎(来搜一下,小猪快盘)无限下载；8、优惠券查询等；9、搜索引擎导航,支持自定义网址【脚本长期维护更新，完全免费，无广告】
 // @author            爱画画的猫,小艾特
 // @icon              data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACS0lEQVRYR8WXz2oTURTGv3MnpqhNKy1UWmxRTGdaiLSQRKkKIoK4FVrRPoHu7BMYn0B3+gQquuiuiC6kaFVsAhGEZkKqG/+Vrtp0YWsyR27KlEwz0xnnT3LgwjB37vl+97tzz9whdDiow/pwBCjofN0AJohwKQgkMxYF8Dmt0bxdnhaAQoWTXMczENJBhFvGMgqk4GY6SZXmPgvAmy/cnYijGqrwvmTVHSQup2jLvG0ByJf5EYDbUQIAeJxR6U4LQHGV1VodesTijfQxBdrkaSrL6z0Hlst8i4An7QBgYDar0lMrgM45ItxrCwDjflajnC+AtR8Gvn8zGpz9xwVOjor/Zma/ANt/GIsLNWxt8p7o4IiAmlLQP+C9pvkG+FoyUPxYs52xhFDPKIh3uRviG2ClWIdsTpHoJYymFNdliQzABBsaEZg4p+DwUftliRxAggwOC0xdidma1RaAI92Ea9OHOgcwPqlANruI1AElhsa2dBKXQJEBnDglGlvxWN/BNcE3gKyCS69b64AUlMISwEv4BpDJ3778i/Xfu5XQtFtaLq+9RiCA6gZj/dcuQN8Audod6kvodYZuz9k7UOK7JPDAbXAY/WxgLjtGDy2f408VPi8MLIUh4JbDELhwNknvLQDyQNoTh87AkFuCIP0E/NzcgWYeTC0bdrkNp6Lm9bc4YM4qr/NzEGaCzNJxLONFRqMbzf22JSu/wlcphhwzpsIAIcIHriGXGadX+/MdWDPflTjRxcH+kLYJhYtj5Piz4/0gF4YVNjk6DvAPDb0aMEr8/nEAAAAASUVORK5CYII=
 // @include           *://*.youku.com/v_*
@@ -2177,6 +2177,8 @@
 	 * 搜索引擎资源提醒
 	 */
 	function searchEnginesNavigation(){
+		this.navigationDataCache = "navigation_data_cache";
+		this.customNavigationkey = "custom-navigation-key-8898";
 		this.searchEnginesData=[
 			{"host":"www.baidu.com", "element":"#content_right","elementInput":"#kw"},
 			{"host":"www.so.com", "element":"#side","elementInput":"#keyword"},
@@ -2188,7 +2190,7 @@
 			{"host":"www.google.com", "element":"#rhs","elementInput":"input[type='text']"}
 		];
 		this.getNavigationData = function(element, elementInput){
-			const navigationData = [
+			const defaultNavigationData = [
 				{"name":"资源搜索","list":[
 					{"name":"书签搜索", "url":"https://www.bookmarkearth.com/s/search?q=@@&currentPage=1"},
 					{"name":"网盘搜索", "url":"https://www.xiaozhukuaipan.com/s/search?q=@@&currentPage=1"},
@@ -2218,13 +2220,25 @@
 					{"name":"头条搜索", "url":"https://so.toutiao.com/search?dvpf=pc&source=input&keyword=@@"}
 				]}
 			];
-			const $that = this;
-			const cacheNavigationData =  commonFunctionObject.GMgetValue("navigation_data_cache",null);
-			if(!!cacheNavigationData){
-				$that.createHtml(element, elementInput, cacheNavigationData);
-			}else{
-				$that.createHtml(element, elementInput, navigationData);
+			
+			const self = this;
+			// 缓存的数据
+			const cacheNavigationData =  commonFunctionObject.GMgetValue(self.navigationDataCache, null);
+			// 自定义的数据
+			const customNavigationData = commonFunctionObject.GMgetValue(self.customNavigationkey, null);
+			if(!cacheNavigationData){
+				cacheNavigationData = defaultNavigationData
 			}
+			
+			// 合并数据
+			var finalNavigationData = null;
+			if(!!customNavigationData){
+				finalNavigationData = cacheNavigationData.concat(customNavigationData);
+			}else{
+				finalNavigationData = cacheNavigationData;
+			}
+			self.createHtml(element, elementInput, finalNavigationData);
+			
 			//判断值是否有变动，如果有变动就更新换存，简单处理，长度是否一致
 			commonFunctionObject.request("get", "http://api.staticj.top/script/api/get/navigation_json_url", null).then((resultData)=>{
 				let dataJson = JSON.parse(resultData.data);
@@ -2232,7 +2246,7 @@
 					commonFunctionObject.request("get", dataJson.url, null).then((resultData2)=>{
 						let serverNavigationData = resultData2.data;
 						if(!cacheNavigationData || (!!cacheNavigationData && serverNavigationData.length!=JSON.stringify(cacheNavigationData).length)){
-							commonFunctionObject.GMsetValue("navigation_data_cache", JSON.parse(serverNavigationData));
+							commonFunctionObject.GMsetValue(self.navigationDataCache, JSON.parse(serverNavigationData));
 						}
 					}).catch(()=>{});
 				}
@@ -2276,6 +2290,115 @@
 				$("body").prepend("<style id='plugin_css_style_dddsoo'>"+innnerCss+"</style>");
 			}
 		};
+		this.showSetingDialog = function(){
+			const self = this;
+			
+			var customNavigationData = "";
+			const customNavigation = commonFunctionObject.GMgetValue(self.customNavigationkey, null);
+			if(!!customNavigation){
+				customNavigationData = JSON.stringify(customNavigation, null, 4);
+			}
+			const content = `
+				<div>
+					<div style="font-size:13px;color:red;">
+						注意事项如下：
+						<br>1、请严格按照格式添加，否则不生效
+						<br>2、数据为json格式，请确保json格式正确，必要时请到<a target="_blank" href="https://www.json.cn/">https://www.json.cn/</a>校验
+						<br>3、点击下面”示例“按钮，查看具体格式情况
+						<br>4、链接中的搜索关键词请用”@@“代替，脚本会自动替换成当前搜索词。例如：https://www.baidu.com/s?wd=@@
+						<br>5、清空 -> 保存，则取消自定义的导航网址
+					</div>
+					<div style="margin-top:5px;height:200px;width:100%;">
+						<textarea 
+							placeholder="请严格按照格式填写，否则不生效"
+							class="navigation-textarea"
+							style="font-size:14px;box-sizing: border-box;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;padding:5px;height:100%;width:100%;Overflow:auto;border:1px solid #ccc;resize:none;background-color:#FFF;outline:none;">`+customNavigationData+`</textarea>
+					</div>
+					<div style="text-align:center;margin-top:15px;">
+						<button class="navigation-example">示例</button>
+						<button class="navigation-clear">清空</button>
+						<button class="navigation-save">保存自定义导航</button>
+					</div>
+				</div>
+			`;
+			popup.dialog({
+				"title":"自定义添加导航",
+				"content":content,
+				"onContentReady":function($that){
+					var $navigationExample = $that.dialogContent.querySelector(".navigation-example");
+					var $navigationClear = $that.dialogContent.querySelector(".navigation-clear");
+					var $navigationSave = $that.dialogContent.querySelector(".navigation-save");
+					
+					var $textarea = $that.dialogContent.querySelector(".navigation-textarea");
+					var exampleJson = JSON.parse('[{"name":"我是标题","list":[{"name":"百度","url":"写网址"},{"name":"必应","url":"写网址"}]},{"name":"我是标题","list":[{"name":"百度","url":"写网址"}]}]');
+					$navigationExample.addEventListener("click", function(){
+						$textarea.value = JSON.stringify(exampleJson, null, 4);
+					});
+					$navigationClear.addEventListener("click", function(){
+						$textarea.value = ""
+					});
+					$navigationSave.addEventListener("click", function(){
+						var content = $textarea.value;
+						if(!content){
+							commonFunctionObject.GMsetValue(self.customNavigationkey, null);
+							commonFunctionObject.webToast({"message":"保存成功：数据为空", "background":"#FF4D40"});
+							return;
+						}
+						if(content.length==0 || content.indexOf("{")==-1 || content.indexOf("[")==-1){
+							commonFunctionObject.webToast({"message":"格式错误，请更正", "background":"#FF4D40"});
+							return;
+						}
+						try{
+							var contentJson = JSON.parse(content);
+							if(Array.isArray(contentJson)){ //开始必须是数组
+								var isOK = true;
+								for(var i=0; i<contentJson.length; i++) {
+									if(Array.isArray(contentJson[i])){ //此处必须是对象
+										isOK = false;
+										break;
+									}
+									if(!contentJson[i].hasOwnProperty("name") || !contentJson[i].hasOwnProperty("list")){
+										isOK = false;
+										break;
+									}
+									if(typeof(contentJson[i]["name"])!="string"){
+										isOK = false;
+										break;
+									}
+									if(!Array.isArray(contentJson[i]["list"])){ //此处必须是数组
+										isOK = false;
+										break;
+									}
+									for(var j=0; j<contentJson[i]["list"].length; j++){
+										if(!contentJson[i]["list"][j].hasOwnProperty("name") || !contentJson[i]["list"][j].hasOwnProperty("url")){
+											isOK = false;
+											break;
+										}
+										if(typeof(contentJson[i]["list"][j]["name"])!="string" || typeof(contentJson[i]["list"][j]["url"])!="string"){
+											isOK = false;
+											break;
+										}
+									}
+									if(!isOK){
+										break;
+									}
+								}
+								if(isOK){
+									commonFunctionObject.GMsetValue(self.customNavigationkey, contentJson);
+									commonFunctionObject.webToast({"message":"保存成功", "background":"#FF4D40"});
+								}else{
+									commonFunctionObject.webToast({"message":"格式错误，请更正", "background":"#FF4D40"});
+								}
+							}else{
+								commonFunctionObject.webToast({"message":"格式错误，请更正", "background":"#FF4D40"});
+							}
+						}catch(e){
+							commonFunctionObject.webToast({"message":"格式错误，请更正", "background":"#FF4D40"});
+						}
+					});
+				}
+			})
+		}
 		this.createHtml = function(element, elementInput, navigationData){
 			$("#dsdsd99mmmjj7760011").remove();
 			
@@ -2298,25 +2421,36 @@
 							for(var j=0;j<navigationData[i].list.length;j++){
 								let url = navigationData[i].list[j].url;
 								let name = navigationData[i].list[j].name;
-								if(url.indexOf(host)!=-1){
-									continue;
-								}
-								html += "<a target='_blank' data-url='"+url+"' href='javascript:void(0);'>"+name+"</a>"				
+								html += "<a target='_blank' name='navigation' data-url='"+url+"' href='javascript:void(0);'>"+name+"</a>"				
 							}
 							html += "</div>";
 							html += "</div>";
 						}
-						html += "<div style='margin-bottom:10px;margin-top:5px;font-size:12px;'><a target='_blank' href='https://greasyfork.org/zh-CN/scripts/418804'>*该数据由油猴脚本提供</a></div>";
+						html += `
+							<div style='margin-bottom:10px;margin-top:5px;font-size:12px;'>
+								<a target='_blank' href='https://greasyfork.org/zh-CN/scripts/418804'>
+									*该数据由油猴脚本提供
+								</a>
+								&nbsp;&nbsp;
+								<a href="javascript:void(0);" name="customNavigation">
+									🔧自定义网址
+								</a>
+							</div>`;
 						html += "</div>";
 						
 						//添加css 添加html
 						self.createCss(elementNum);
 						$element.prepend(html);
 						
-						$("#dsdsd99mmmjj7760011 a").on("click", function(e){
+						$("#dsdsd99mmmjj7760011 a[name='navigation']").on("click", function(e){
 							commonFunctionObject.GMopenInTab($(this).data("url").replace("@@",$(elementInput).val()));
 							e.preventDefault()
 						});
+						
+						$("#dsdsd99mmmjj7760011 a[name='customNavigation']").on("click", function(e){
+							self.showSetingDialog();
+							e.preventDefault()
+						})
 					}
 					isComplate = true;
 				}
