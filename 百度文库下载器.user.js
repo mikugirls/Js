@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         百度文库下载器,VIP文档免费下载 | 全文阅读| 开启右键复制
-// @version      1.6.9
+// @version      1.7.0
 // @description  【本脚本功能】保持源文件排版导出 PDF 文件，解除继续阅读限制，净化弹窗、广告，开启文库本地 VIP，淘宝、天猫、京东商品优惠券查询
 // @author       zhihu
 // @antifeature  membership  为防止接口被盗！该脚本需要输入验证码之后才能使用完整功能，感谢理解
@@ -36,7 +36,7 @@
 (function () {
     'use strict';
     var qrname,nodeid,goodid,method,action,updateconfig;
-    const scpritversion = "1.6.8";
+    const scpritversion = "1.7.0";
     function Getgoodid(gid) {
         var reg = new RegExp("(^|&)" + gid + "=([^&]*)(&|$)");
         var s = window.location.search.substr(1).match(reg);
@@ -358,9 +358,7 @@
                     console.log(json);
                     if (method == "taobao") {
                         if (code == "0") {
-                            var longTpwd = json.data.longTpwd
-                            var couponUrl = longTpwd.match(/https:\/\/[\d\w\.\/]+/)[0];
-                            console.log(longTpwd);
+                            var couponUrl = json.data.shortUrl
                             console.log(couponUrl);
                             var couponInfo = json.data.couponInfo;
                             var couponEndTime = json.data.couponEndTime;
