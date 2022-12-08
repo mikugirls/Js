@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         百度文库下载器,VIP文档免费下载 | 全文阅读| 开启右键复制
-// @version      1.7.0
+// @version      1.7.1
 // @description  【本脚本功能】保持源文件排版导出 PDF 文件，解除继续阅读限制，净化弹窗、广告，开启文库本地 VIP，淘宝、天猫、京东商品优惠券查询
 // @author       zhihu
 // @antifeature  membership  为防止接口被盗！该脚本需要输入验证码之后才能使用完整功能，感谢理解
@@ -410,17 +410,17 @@
         var mainhtml,qa,cxalink,link;
         if(qrname =="淘宝"){
             let ht = document.querySelector("#J_Title");
-            link ="http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&platform=手机淘宝"
+            link ="http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&platform="+encodeURIComponent("手机淘宝");
             qa = "淘宝";
             cxalink ='http://wxego.yhzu.cn/?r=/l&kw='+encodeURI(ht.querySelector("h3").innerText)+'&sort=0';
         }else if(qrname =="天猫"){
             let hm = document.querySelector(".tb-detail-hd")??document.querySelector(".ItemHeader--root--DXhqHxP");
-            link ="http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&platform=手机淘宝"
+            link ="http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&platform="+encodeURIComponent("手机淘宝");
             cxalink ='http://wxego.yhzu.cn/?r=/l&kw='+encodeURI(hm.querySelector("h1").innerText)+'&sort=0';
             qa = "淘宝";
         }else if(qrname =="京东"){
             cxalink = 'http://wxego.yhzu.cn/?r=/l/jdlist&kw='+encodeURI(document.querySelector(".sku-name").innerText)+'&sort=0';
-            link = "http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&platform=手机京东或微信"
+            link = "http://tool.wezhicms.com/coupon/getscan.php?link="+u+"&platform="+encodeURIComponent("手机京东或微信");
             qa = "京东";
         }
 
