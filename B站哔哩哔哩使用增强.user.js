@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name              B站哔哩哔哩使用增强，全网VIP视频免费破解去广告，全网音乐直接下载，知乎使用增强，短视频无水印下载，油管、Facebook等国外视频解析下载，网盘搜索引擎破解无限下载等
 // @namespace         super_video_helper_cat
-// @version           4.3.1
+// @version           4.3.2
 // @description       【❤️视频解析❤️，适配PC+移动 】功能可选择性打开：1、B站使用增强：支持视频下载(👉支持多P批量快速下载👈)、浏览记录提示、一键三连、描述文本网址转链接等；2、全网VIP视频解析：爱奇艺、腾讯、优酷、bilibili等视频免费解析(支持自定义解析接口)；3、知乎使用助手：内容种类标识、问答显示优化、视频下载等；4、短视频去水印下载：支持知乎、抖音、快手等；5、全网VIP音乐解析：网易云音乐、QQ音乐、喜马拉雅等免客户端下载；6、油管、Facebook等国外视频解析下载；7、网盘搜索引擎(来搜一下,小猪快盘)无限下载；8、优惠券查询等；9、搜索引擎导航,支持自定义网址【脚本长期维护更新，完全免费，无广告】
 // @author            爱画画的猫,小艾特
 // @icon              data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACS0lEQVRYR8WXz2oTURTGv3MnpqhNKy1UWmxRTGdaiLSQRKkKIoK4FVrRPoHu7BMYn0B3+gQquuiuiC6kaFVsAhGEZkKqG/+Vrtp0YWsyR27KlEwz0xnnT3LgwjB37vl+97tzz9whdDiow/pwBCjofN0AJohwKQgkMxYF8Dmt0bxdnhaAQoWTXMczENJBhFvGMgqk4GY6SZXmPgvAmy/cnYijGqrwvmTVHSQup2jLvG0ByJf5EYDbUQIAeJxR6U4LQHGV1VodesTijfQxBdrkaSrL6z0Hlst8i4An7QBgYDar0lMrgM45ItxrCwDjflajnC+AtR8Gvn8zGpz9xwVOjor/Zma/ANt/GIsLNWxt8p7o4IiAmlLQP+C9pvkG+FoyUPxYs52xhFDPKIh3uRviG2ClWIdsTpHoJYymFNdliQzABBsaEZg4p+DwUftliRxAggwOC0xdidma1RaAI92Ea9OHOgcwPqlANruI1AElhsa2dBKXQJEBnDglGlvxWN/BNcE3gKyCS69b64AUlMISwEv4BpDJ3778i/Xfu5XQtFtaLq+9RiCA6gZj/dcuQN8Audod6kvodYZuz9k7UOK7JPDAbXAY/WxgLjtGDy2f408VPi8MLIUh4JbDELhwNknvLQDyQNoTh87AkFuCIP0E/NzcgWYeTC0bdrkNp6Lm9bc4YM4qr/NzEGaCzNJxLONFRqMbzf22JSu/wlcphhwzpsIAIcIHriGXGadX+/MdWDPflTjRxcH+kLYJhYtj5Piz4/0gF4YVNjk6DvAPDb0aMEr8/nEAAAAASUVORK5CYII=
 // @include           *://*.youku.com/v_*
+// @include           *://m.youku.com/alipay_video/*
+// @include           *://m.youku.com/video/id_*
 // @include           *://*.iqiyi.com/v_*
 // @include           *://*.iqiyi.com/w_*
 // @include           *://*.iqiyi.com/a_*
@@ -13,46 +15,40 @@
 // @include           *://v.qq.com/x/cover/*
 // @include           *://v.qq.com/x/page/*
 // @include           *://v.qq.com/tv/*
+// @include           *://m.v.qq.com/x/cover/*
+// @include           *://m.v.qq.com/x/page/*
+// @include           *://m.v.qq.com/*
+// @include           *://y.qq.com*
 // @include           *://*.tudou.com/listplay/*
 // @include           *://*.tudou.com/albumplay/*
 // @include           *://*.tudou.com/programs/view/*
 // @include           *://*.mgtv.com/b/*
 // @include           *://film.sohu.com/album/*
 // @include           *://tv.sohu.com/v/*
+// @include           *://m.tv.sohu.com/v/*
+// @include           *://m.film.sohu.com/album/*
 // @include           *://*.baofeng.com/play/*
-// @include           *://vip.pptv.com/show/*
-// @include           *://v.pptv.com/show/*
-// @include           *://www.le.com/ptv/vplay/*
-// @include           *://www.wasu.cn/Play/show/*
+// @include           *://*.pptv.com/show/*
+// @include           *://*.wasu.cn/Play/show/*
 // @include           *://*.1905.com/video/*
 // @include           *://*.1905.com/play/*
 // @include           *://*.1905.com/*/play/*
 // @include           *://www.miguvideo.com/mgs/*
 //---------------------------------------------------
-// @include           *://m.v.qq.com/x/cover/*
-// @include           *://m.v.qq.com/x/page/*
-// @include           *://m.v.qq.com/*
-// @include           *://m.youku.com/alipay_video/*
-// @include           *://m.youku.com/video/id_*
-// @include           *://m.mgtv.com/b/*
-// @include           *://m.tv.sohu.com/v/*
-// @include           *://m.film.sohu.com/album/*
-// @include           *://m.le.com/ptv/vplay/*
-// @include           *://m.pptv.com/show/*
 // @include           *://m.acfun.cn/v/*
+// @include           *://www.acfun.cn/bangumi/*
 // @include           *://m.bilibili.com/video/*
 // @include           *://m.bilibili.com/anime/*
 // @include           *://m.bilibili.com/bangumi/play/*
-// @include           *://m.wasu.cn/Play/show/*
+// @include	   	      *://www.bilibili.com/**
+// @include           *://search.bilibili.com/**
+// @include           *://space.bilibili.com/**
 //---------------------------------------------------
-// @include           *://www.youtube.com
-// @include           *://www.youtube.com/
-// @include           *://www.youtube.com/watch*
+// @include           *://www.youtube.com/*
 // @include           *://www.facebook.com/*
 // @include           *://yt1s.com/facebook-downloader
 //---------------------------------------------------
 // @include      	  *music.163.com*
-// @include           *://y.qq.com*
 // @include           *://www.kugou.com*
 // @include           *://www.kuwo.cn*
 // @include           *://www.lizhi.fm*
@@ -78,9 +74,6 @@
 // @include           *://so.toutiao.com/search*
 // @include           *://www.google.com/search*
 //-------------------------------------------------------
-// @include	   	      *://www.bilibili.com/**
-// @include           *://search.bilibili.com/**
-// @include           *://space.bilibili.com/**
 // @include      	  *://*.zhihu.com/*
 // @include           *://www.douyin.com/*
 // @include           *://www.kuaishou.com/*
@@ -532,6 +525,7 @@
 		{"name":"爱豆","url":"https://jx.aidouer.net/?url=", "showType":1},
 		{"name":"虾米","url":"https://jx.xmflv.com/?url=", "showType":1},
 		{"name":"OK解析","url":"https://okjx.cc/?url=", "showType":3},
+		{"name":"诺讯","url":"https://www.nxflv.com/?url=", "showType":1},
 		{"name":"夜幕","url":"https://www.yemu.xyz/?url=", "showType":3},
 		{"name":"M3U8.TV","url":"https://jx.m3u8.tv/jiexi/?url=", "showType":3},
 		{"name":"人人迷","url":"https://jx.blbo.cc:4433/?url=", "showType":3},
@@ -555,7 +549,6 @@
 		{"name":"17云","url":"https://www.1717yun.com/jx/ty.php?url=", "showType":1},
 		{"name":"4K","url":"https://jx.4kdv.com/?url=", "showType":1},
 		{"name":"8090","url":"https://www.8090g.cn/?url=", "showType":1},
-		{"name":"诺讯","url":"https://www.nxflv.com/?url=", "showType":1},
 		{"name":"听乐","url":"https://jx.dj6u.com/?url=", "showType":1},
 		{"name":"180","url":"https://jx.000180.top/jx/?url=", "showType":1},
 		{"name":"无名","url":"https://www.administratorw.com/video.php?url=", "showType":1}
@@ -1629,6 +1622,7 @@
 						if(currentLength > maxLength){
 							cacheText = cacheText.substring(12*100, currentLength);
 						}
+						
 						if(cacheText.indexOf(bv)==-1){
 							cacheText += bv;
 							commonFunctionObject.GMsetValue(this.localCacheName, cacheText);
@@ -2222,19 +2216,20 @@
 			];
 			
 			const self = this;
-			// 缓存的数据
-			const cacheNavigationData =  commonFunctionObject.GMgetValue(self.navigationDataCache, null);
-			// 自定义的数据
-			const customNavigationData = commonFunctionObject.GMgetValue(self.customNavigationkey, null);
+			let cacheNavigationData =  commonFunctionObject.GMgetValue(self.navigationDataCache, null); // 缓存的数据
 			if(!cacheNavigationData){
 				cacheNavigationData = defaultNavigationData
 			}
-			
 			// 合并数据
 			var finalNavigationData = null;
-			if(!!customNavigationData){
-				finalNavigationData = cacheNavigationData.concat(customNavigationData);
-			}else{
+			try{
+				let customNavigationData = commonFunctionObject.GMgetValue(self.customNavigationkey, null); // 自定义的数据
+				if(!!customNavigationData){
+					finalNavigationData = cacheNavigationData.concat(customNavigationData);
+				}else{
+					finalNavigationData = cacheNavigationData;
+				}
+			}catch(e){
 				finalNavigationData = cacheNavigationData;
 			}
 			self.createHtml(element, elementInput, finalNavigationData);
