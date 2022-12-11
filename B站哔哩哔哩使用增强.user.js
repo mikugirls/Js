@@ -36,7 +36,6 @@
 // @include           *://www.miguvideo.com/mgs/*
 //---------------------------------------------------
 // @include           *://m.acfun.cn/v/*
-// @include           *://www.acfun.cn/bangumi/*
 // @include           *://m.bilibili.com/video/*
 // @include           *://m.bilibili.com/anime/*
 // @include           *://m.bilibili.com/bangumi/play/*
