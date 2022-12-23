@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         百度文库下载器,VIP文档免费下载 | 全文阅读| 开启右键复制
-// @version      1.7.1
+// @version      1.7.2
 // @description  【本脚本功能】保持源文件排版导出 PDF 文件，解除继续阅读限制，净化弹窗、广告，开启文库本地 VIP，淘宝、天猫、京东商品优惠券查询
 // @author       zhihu
 // @antifeature  membership  为防止接口被盗！该脚本需要输入验证码之后才能使用完整功能，感谢理解
@@ -878,7 +878,12 @@
 
                     const pageSize = [page.readerInfo.pageInfo.width, page.readerInfo.pageInfo.height]
                     if (!doc) {
-                        doc = new jspdf.jsPDF(pageSize[0] < pageSize[1] ? 'p' : 'l', 'pt', pageSize);
+                        doc = new jspdf.jsPDF({
+            orientation: pageSize[0] < pageSize[1] ? 'p' : 'l',
+            unit: 'pt',
+            format: pageSize,
+            compress: true
+          });
                     } else {
                         doc.addPage(pageSize);
                     }
