@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name              B站哔哩哔哩使用增强，全网VIP视频免费破解去广告，全网音乐直接下载，知乎使用增强，短视频无水印下载，油管、Facebook等国外视频解析下载，网盘搜索引擎破解无限下载等
 // @namespace         super_video_helper_cat
-// @version           4.3.3
+// @version           4.4.1
 // @description       【❤️视频解析❤️，适配PC+移动 】功能可选择性打开：1、B站使用增强：支持视频下载(👉支持多P批量快速下载👈)、浏览记录提示、一键三连、描述文本网址转链接等；2、全网VIP视频解析：爱奇艺、腾讯、优酷、bilibili等视频免费解析(支持自定义解析接口)；3、知乎使用助手：内容种类标识、问答显示优化、视频下载等；4、短视频去水印下载：支持知乎、抖音、快手等；5、全网VIP音乐解析：网易云音乐、QQ音乐、喜马拉雅等免客户端下载；6、油管、Facebook等国外视频解析下载；7、网盘搜索引擎(来搜一下,小猪快盘)无限下载；8、优惠券查询等；9、搜索引擎导航,支持自定义网址【脚本长期维护更新，完全免费，无广告】
 // @author            爱画画的猫,小艾特
 // @icon              data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACS0lEQVRYR8WXz2oTURTGv3MnpqhNKy1UWmxRTGdaiLSQRKkKIoK4FVrRPoHu7BMYn0B3+gQquuiuiC6kaFVsAhGEZkKqG/+Vrtp0YWsyR27KlEwz0xnnT3LgwjB37vl+97tzz9whdDiow/pwBCjofN0AJohwKQgkMxYF8Dmt0bxdnhaAQoWTXMczENJBhFvGMgqk4GY6SZXmPgvAmy/cnYijGqrwvmTVHSQup2jLvG0ByJf5EYDbUQIAeJxR6U4LQHGV1VodesTijfQxBdrkaSrL6z0Hlst8i4An7QBgYDar0lMrgM45ItxrCwDjflajnC+AtR8Gvn8zGpz9xwVOjor/Zma/ANt/GIsLNWxt8p7o4IiAmlLQP+C9pvkG+FoyUPxYs52xhFDPKIh3uRviG2ClWIdsTpHoJYymFNdliQzABBsaEZg4p+DwUftliRxAggwOC0xdidma1RaAI92Ea9OHOgcwPqlANruI1AElhsa2dBKXQJEBnDglGlvxWN/BNcE3gKyCS69b64AUlMISwEv4BpDJ3778i/Xfu5XQtFtaLq+9RiCA6gZj/dcuQN8Audod6kvodYZuz9k7UOK7JPDAbXAY/WxgLjtGDy2f408VPi8MLIUh4JbDELhwNknvLQDyQNoTh87AkFuCIP0E/NzcgWYeTC0bdrkNp6Lm9bc4YM4qr/NzEGaCzNJxLONFRqMbzf22JSu/wlcphhwzpsIAIcIHriGXGadX+/MdWDPflTjRxcH+kLYJhYtj5Piz4/0gF4YVNjk6DvAPDb0aMEr8/nEAAAAASUVORK5CYII=
@@ -398,6 +398,32 @@
 				}, delay);
 			});
 		};
+		/**
+		 * @param {Object} time
+		 * @param {Object} format
+		 * 时间格式化
+		 * DateFormat(new Date(dateCreated), "yyyy-MM-dd hh:mm:ss")
+		 */
+		this.DateFormat = function(time, format) {
+		    var o = {
+		        "M+": time.getMonth() + 1, //月份 
+		        "d+": time.getDate(), //日 
+		        "h+": time.getHours(), //小时 
+		        "m+": time.getMinutes(), //分 
+		        "s+": time.getSeconds(), //秒 
+		        "q+": Math.floor((time.getMonth() + 3) / 3), //季度 
+		        "S": time.getMilliseconds() //毫秒 
+		    };
+		    if(/(y+)/.test(format)){
+				format = format.replace(RegExp.$1, (time.getFullYear() + "").substr(4 - RegExp.$1.length));
+			}
+		    for(var k in o){
+		        if(new RegExp("(" + k + ")").test(format)){
+		            format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+				}
+			}
+		    return format;
+		}
 	}
 	
 	//全局弹窗对象
@@ -2538,84 +2564,48 @@
 				location.href = decodeURIComponent(regexResult[1]);
 			}
 		};
-		this.markQuestionDate = function(){
-			/**
-			 * @param {Object} time
-			 * @param {Object} format
-			 * 时间格式化
-			 * DateFormat(new Date(dateCreated), "yyyy-MM-dd hh:mm:ss")
-			 */
-			function DateFormat(time, format) {  //
-			    var o = {
-			        "M+": time.getMonth() + 1, //月份 
-			        "d+": time.getDate(), //日 
-			        "h+": time.getHours(), //小时 
-			        "m+": time.getMinutes(), //分 
-			        "s+": time.getSeconds(), //秒 
-			        "q+": Math.floor((time.getMonth() + 3) / 3), //季度 
-			        "S": time.getMilliseconds() //毫秒 
-			    };
-			    if(/(y+)/.test(format)){
-					format = format.replace(RegExp.$1, (time.getFullYear() + "").substr(4 - RegExp.$1.length));
-				}
-			    for(var k in o){
-			        if(new RegExp("(" + k + ")").test(format)){
-			            format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-					}
-				}
-			    return format;
+		// 为问题本身添加时间
+		this.addDateQuestion = function(){
+			var title = document.querySelector(".QuestionPage");
+			if(!!title){
+				var dateCreated = title.querySelector("[itemprop~=dateCreated][content]").content;
+				var dateModified = title.querySelector("[itemprop~=dateModified][content]").content;
+				var createDate = commonFunctionObject.DateFormat(new Date(dateCreated), "yyyy-MM-dd hh:mm:ss");
+				var editDate = commonFunctionObject.DateFormat(new Date(dateModified), "yyyy-MM-dd hh:mm:ss");
+				
+				var side = title.querySelector(".QuestionHeader-side");
+				var timeDiv = document.createElement('div');
+				timeDiv.innerHTML = `<p>创建于:&nbsp;${createDate}</p><p>编辑于:&nbsp;${editDate}</p>`;
+				timeDiv.style.cssText = 'color:#6f6f6f;font-size:13px;';
+				side.appendChild(timeDiv);
 			}
-			
-			/**
-			 * 为问题添加创建时间和编辑时间
-			 */
-			function addDateQuestion() {
-				var title = document.querySelector(".QuestionPage");
-				if(!!title){
-					var dateCreated = title.querySelector("[itemprop~=dateCreated][content]").content;
-					var dateModified = title.querySelector("[itemprop~=dateModified][content]").content;
-					var createDate = DateFormat(new Date(dateCreated), "yyyy-MM-dd hh:mm:ss");
-					var editDate = DateFormat(new Date(dateModified), "yyyy-MM-dd hh:mm:ss");
-					
-					var side = title.querySelector(".QuestionHeader-side");
-					var timeDiv = document.createElement('div');
-					timeDiv.innerHTML = `<p>创建于:&nbsp;${createDate}</p><p>编辑于:&nbsp;${editDate}</p>`;
-					timeDiv.style.cssText = 'color:#6f6f6f;font-size:13px;';
-					side.appendChild(timeDiv);
-				}
-			}
-			
-			/**
-			 * 为回答添加创建时间和编辑时间
-			 */
-			function addTimeAnswerItems() {
-				var list = document.querySelectorAll(".AnswerItem");
-				for (var i = 0; i < list.length; i++) {
-					var item = list[i];
-					if (item.getAttribute('zh_date_mk') === 'true') {
-						continue;
-					}
-					item.setAttribute('zh_date_mk', 'true');
-					try{					
-						var dateCreated = item.querySelector("[itemprop~=dateCreated][content]").content;
-						var dateModified = item.querySelector("[itemprop~=dateModified][content]").content;
-						var createDate = DateFormat(new Date(dateCreated), "yyyy-MM-dd hh:mm:ss");
-						var editDate = DateFormat(new Date(dateModified), "yyyy-MM-dd hh:mm:ss");
-			 
-						var sideItem = item.querySelector(".ContentItem-meta");
-						var timeDiv = document.createElement('div');
-						timeDiv.innerHTML = `创建于:&nbsp;${createDate}&nbsp;&nbsp;&nbsp;编辑于:&nbsp;${editDate}`;
-						timeDiv.class = "Voters";
-						timeDiv.style.cssText = 'color:#6f6f6f;font-size:13px;display:block;padding:5px 0px;';
-						sideItem.appendChild(timeDiv);
-					}catch(e){}
-				}
-			}
-			addDateQuestion();
-			setInterval(function(){ //循环检查回答和修改时间
-				addTimeAnswerItems();
-			},1200);
 		};
+		// 为回答添加时间
+		this.addTimeAnswerItems = function(){
+			var list = document.querySelectorAll(".AnswerItem:not(div[zh_date_mk='true'])");
+			var item = null;
+			for (var i = 0; i < list.length; i++) {
+				item = list[i];
+				if (item.getAttribute('zh_date_mk') === 'true') {
+					continue;
+				}
+				item.setAttribute("zh_date_mk", "true");
+				try{					
+					var dateCreated = item.querySelector("[itemprop~=dateCreated][content]").content;
+					var dateModified = item.querySelector("[itemprop~=dateModified][content]").content;
+					var createDate = commonFunctionObject.DateFormat(new Date(dateCreated), "yyyy-MM-dd hh:mm:ss");
+					var editDate = commonFunctionObject.DateFormat(new Date(dateModified), "yyyy-MM-dd hh:mm:ss");
+						 
+					var sideItem = item.querySelector(".ContentItem-meta");
+					var timeDiv = document.createElement('div');
+					timeDiv.innerHTML = `创建于:&nbsp;${createDate}&nbsp;&nbsp;&nbsp;编辑于:&nbsp;${editDate}`;
+					timeDiv.class = "Voters";
+					timeDiv.style.cssText = 'color:#6f6f6f;font-size:13px;display:block;padding:5px 0px;';
+					sideItem.appendChild(timeDiv);
+				}catch(e){}
+			}
+		};
+		// 提问者标识出来
 		this.showQuestionAuthor = function(){
 			//此处代码借鉴自 - 知乎增强
 			//原作者：X.I.U
@@ -2625,35 +2615,77 @@
 				html = `<div class="BrandQuestionSymbol"><a class="BrandQuestionSymbol-brandLink" href="/people/${qJson.urlToken}"><img role="presentation" src="${qJson.avatarUrl}" class="BrandQuestionSymbol-logo" alt=""><span class="BrandQuestionSymbol-name">${qJson.name}</span></a><div class="BrandQuestionSymbol-divider" style="margin-left: 5px;margin-right: 10px;"></div></div>`;
 			document.querySelector('.QuestionHeader-topics').insertAdjacentHTML('beforebegin', html);
 		};
-		this.autoHeightQualityPic = function(){
-			
+		this.startDealwithQuestion = function(){
+			let isMarkComplete = true;
+			setInterval(()=>{
+				if(isMarkComplete){
+					isMarkComplete = false;
+					this.addTimeAnswerItems();
+					isMarkComplete = true;
+				}
+			}, 2999);
+			this.showQuestionAuthor();
+			this.addDateQuestion();
 		};
 		this.downloadVideo = function(){
-			let downloadElementClassName = "zhihu_helper_666wwi1";
-			//有借鉴懒哈哈的脚本
-			//脚本地址：https://greasyfork.org/zh-CN/scripts/370634
-			document.addEventListener('DOMNodeInserted',(e) => {
-				if(!e.relatedNode.querySelector) return;
-				var playBar = e.relatedNode.querySelector(':scope > div:last-child > div:first-child > div:nth-of-type(2)');
-				if(!playBar || playBar.querySelector('.'+downloadElementClassName)) return;
-				var playBut = playBar.querySelector(':scope > div:last-child');
-				if(!playBut) return;
-				var playButLi = playBut.querySelector('div:first-child');
-				if(!playButLi) return;
-				var downloadBut = playButLi.cloneNode(true);
-				downloadBut.className = playButLi.className + ' ' + downloadElementClassName;
-				if(!downloadBut.querySelector('._1tg8oir')) return;
-				downloadBut.querySelector('._1tg8oir').innerText='下载';
-				playButLi.before(downloadBut);
+			let isMarkComplete = true;
+			function addDownloadButton(){
+				if(!isMarkComplete) return;
+				isMarkComplete = false;
 				
-				downloadBut.addEventListener("click",function(){
-					let playUrl = document.querySelector("video").getAttribute("src");
-					if(!!playUrl){
-						commonFunctionObject.GMopenInTab(playUrl);
+				var itemArray = document.querySelectorAll("._1tg8oir:not(span[zh_date_mk='true'])");
+				var item = null;
+				// console.log("知乎视频下载循坏监听次数：", itemArray.length);
+				for(var i=0; i<itemArray.length; i++){
+					item = itemArray[i];
+					if (item.getAttribute('zh_date_mk') === 'true') {
+						continue;
 					}
-				});
-			});
+					item.setAttribute("zh_date_mk", "true");
+					
+					if(item.innerText != "倍速"){
+						continue;
+					}
+					
+					var playButLi = item.parentNode.parentNode;
+					var downloadBut = playButLi.cloneNode(true)
+					if(!downloadBut.querySelector('._1tg8oir')) return;
+					
+					// 删除其它元素
+					var downloadButChildren = downloadBut.children;
+					for(var j=0; j<downloadButChildren.length; j++){
+						if(downloadButChildren[j].nodeName !== "BUTTON"){
+							downloadBut.removeChild(downloadButChildren[j]);
+						}
+					}
+					
+					downloadBut.setAttribute("zh_date_mk", "true");
+					downloadBut.querySelector('._1tg8oir').innerText='下载';
+					
+					playButLi.before(downloadBut);
+					downloadBut.addEventListener("click",function(){
+						let href = window.location.href;
+						let findClassName = ".ZVideoItem-video"; // 首页
+						if(href.indexOf("www.zhihu.com/search")!=-1){ //搜索界面
+							findClassName = ".List-item";
+						}else if(href.indexOf("www.zhihu.com/zvideo/")!=-1){ //单独视频播放界面
+							findClassName = ".ZVideo-player";
+						}else if(href.indexOf("https://video.zhihu.com/video")!=-1){ //视频播放iframe
+							findClassName = "#player"
+						}
+						if(!findClassName) return;
+						let playUrl = $(item).parents(findClassName).find("video").attr("src");
+						if(!!playUrl){
+							commonFunctionObject.GMopenInTab(playUrl);
+						}
+					});
+				}
+				isMarkComplete = true;
+			}
 			
+			setInterval(()=>{
+				addDownloadButton();
+			}, 1499);
 		};
 		this.start = function(){
 			const host = window.location.host;
@@ -2662,24 +2694,11 @@
 				this.autoJumpTarget();
 			}
 			if(host.indexOf("zhihu.com")!=-1){
+				this.markArticleOrQuestion();
 				if(window.location.href.indexOf("www.zhihu.com/question/")!=-1){
-					this.markQuestionDate();   //问题日期
-					this.showQuestionAuthor(); //提问者标识出来
+					this.startDealwithQuestion();
 				}
-				this.markArticleOrQuestion();  //标识文章还是提问
-				this.autoHeightQualityPic();   //自动高清图
-				
-				//知乎视频下载
 				this.downloadVideo();
-				window.onload=function(){
-					self.downloadVideo();
-				}
-				window.onscroll=function(){
-					var scrollTop = document.documentElement.scrollTop; 
-					if(scrollTop > 200){ 
-					    self.downloadVideo();
-					}
-				}
 			}
 		};
 	}
